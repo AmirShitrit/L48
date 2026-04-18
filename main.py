@@ -42,7 +42,8 @@ def run_episode(env: DroneGridEnv, agent: QLearningAgent, max_steps: int = 200) 
     return False
 
 
-def train(env: DroneGridEnv, agent: QLearningAgent, n_episodes: int = 1500, report_every: int = 100) -> None:
+def train(env: DroneGridEnv, agent: QLearningAgent, n_episodes: int = 1500, report_every: int = 100) -> list[int]:
+    win_history = []
     wins = 0
     for episode in range(n_episodes):
         if run_episode(env, agent):
@@ -51,7 +52,9 @@ def train(env: DroneGridEnv, agent: QLearningAgent, n_episodes: int = 1500, repo
         if (episode + 1) % report_every == 0:
             start = episode + 2 - report_every
             print(f"Episodes {start}–{episode + 1}: {wins}/{report_every} wins")
+            win_history.append(wins)
             wins = 0
+    return win_history
 
 
 def main() -> None:
